@@ -16,3 +16,13 @@ Open SQL Server Management Studio (SSMS) and connect to your SQL Server instance
 **Run the Import:**
 - Review the mappings between source and destination columns.
 - Click "Next" and then "Finish" to run the import process.
+
+```sql
+/******Creating a new column named "Item Retail Value"******/
+ALTER TABLE [wholesale_retail_orders].[dbo].[orders]
+ADD [Item Retail Value] DECIMAL(10,2);
+
+/******update data from query******/
+UPDATE [wholesale_retail_orders].[dbo].[orders]
+SET [Item Retail Value] = CAST([Total Retail Price for This Order] AS DECIMAL(10,2)) / CAST([Quantity Ordered] AS DECIMAL(10,2));
+```
