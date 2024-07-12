@@ -1,4 +1,6 @@
 # Wholesale-Retail-Orders-Analysis-SQL
+- orders: 185013 
+- product-supplier: 5504
 
 Open SQL Server Management Studio (SSMS) and connect to your SQL Server instance.
 - Right-click on the database where you want to import the CSV file.
