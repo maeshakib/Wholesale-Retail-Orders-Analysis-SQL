@@ -42,3 +42,16 @@ SELECT TOP (100) [Customer ID]
   FROM [wholesale_retail_orders ].[dbo].[orders]
 
 ```
+
+Grouping by Product - Cost Price per Unit (Wholesale) Mean and Item Retail Value (Retail) Mean
+```sql
+SELECT  [Product ID],
+
+  COUNT([Product ID]) AS Product_Count,
+    AVG(CAST([Cost Price Per Unit] AS DECIMAL(10, 2))) AS Avg_Cost_Price_Per_Unit,
+    AVG(CAST([Item Retail Value] AS DECIMAL(10, 2))) AS Avg_Item_Retail_Value
+  FROM [wholesale_retail_orders ].[dbo].[orders]
+  group by [Product ID]
+  order by [Product ID]
+```
+
