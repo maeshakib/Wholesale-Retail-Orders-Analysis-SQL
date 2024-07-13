@@ -57,3 +57,12 @@ SELECT  [Product ID],
   order by [Product ID]
 ```
 
+**Find top 10 highest reveue generating products**
+
+```sql
+select top 10 s.[Product Name],sum(cast ([Total Retail Price for This Order] as decimal(10,2))) as sales
+from [wholesale_retail_orders ].[dbo].[orders] o join  [wholesale_retail_orders ].[dbo].[product-supplier] s
+on o.[Product ID]=s.[Product ID]
+group by s.[Product Name]
+order by sales desc
+```
