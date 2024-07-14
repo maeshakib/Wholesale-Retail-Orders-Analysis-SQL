@@ -164,3 +164,38 @@ from cteSalesOrders
 ) a
 where rn=1
 ```
+#### Category had highest growth by profit in 2023 compare to 2022
+
+
+```sql
+with cteSalesOrders as(
+SELECT 
+   [Product Category], YEAR(CONVERT(DATE, [Delivery Date], 120)) AS OrderYear,
+    
+   sum(cast ([Total Retail Price for This Order] as decimal(10,2))) as sales
+FROM 
+   
+	  [wholesale_retail_orders ].[dbo].[orders] o join  [wholesale_retail_orders ].[dbo].[product-supplier] s
+on o.[Product ID]=s.[Product ID]
+GROUP BY 
+   [Product Category], YEAR(CONVERT(DATE, [Delivery Date], 120)) 
+    
+	
+),
+cte as(
+select [Product Category],
+ 
+SUM(case when OrderYear=2020 then sales else 0 end) as sales_2020
+,SUM(case when OrderYear=2021 then sales else 0 end) as sales_2021
+
+from cteSalesOrders 
+group by [Product Category] 
+ )
+ select top 1 *
+,
+(
+cast(sales_2021 as decimal(10,2))-cast(sales_2020 as decimal(10,2))
+) [dd]
+from  cte
+order by (cast(sales_2021 as decimal(10,2))-cast(sales_2020 as decimal(10,2))) desc
+```
