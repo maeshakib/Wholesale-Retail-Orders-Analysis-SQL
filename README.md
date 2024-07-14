@@ -66,3 +66,31 @@ on o.[Product ID]=s.[Product ID]
 group by s.[Product Name]
 order by sales desc
 ```
+
+#### adding new column for "Supplier Country" with named "Supplier Country Long"
+```sql
+--Step 1: Add the new column "Supplier Country Long"--
+ALTER TABLE your_table_name
+ADD COLUMN "Supplier Country Long" VARCHAR(50);
+
+-- Step 2: Update the new column with the full country names
+UPDATE your_table_name
+SET "Supplier Country Long" = CASE
+    WHEN "Supplier Country" = 'US' THEN 'United States'
+    WHEN "Supplier Country" = 'BE' THEN 'Belgium'
+    WHEN "Supplier Country" = 'FR' THEN 'France'
+    WHEN "Supplier Country" = 'NO' THEN 'Norway'
+    WHEN "Supplier Country" = 'AU' THEN 'Australia'
+    WHEN "Supplier Country" = 'SE' THEN 'Sweden'
+    WHEN "Supplier Country" = 'PT' THEN 'Portugal'
+    WHEN "Supplier Country" = 'ES' THEN 'Spain'
+    WHEN "Supplier Country" = 'NL' THEN 'Netherlands'
+    WHEN "Supplier Country" = 'DE' THEN 'Germany'
+    WHEN "Supplier Country" = 'DK' THEN 'Denmark'
+    WHEN "Supplier Country" = 'CA' THEN 'Canada'
+    WHEN "Supplier Country" = 'GB' THEN 'United Kingdom'
+    ELSE 'Unknown'
+END;
+```
+
+
