@@ -139,3 +139,28 @@ group by OrderMonth
 order by OrderMonth
 
 ```
+
+
+
+#### Foreach category which month had highest sales 
+```sql
+with cteSalesOrders as(
+SELECT 
+[Product Category],
+      FORMAT(CONVERT(DATE, [Delivery Date], 120), 'yyyyMM') AS OrderYearMonth,
+   sum(cast ([Total Retail Price for This Order] as decimal(10,2))) as sales
+FROM 
+      [wholesale_retail_orders ].[dbo].[orders] o join  [wholesale_retail_orders ].[dbo].[product-supplier] s
+on o.[Product ID]=s.[Product ID]
+GROUP BY 
+   [Product Category],
+ FORMAT(CONVERT(DATE, [Delivery Date], 120), 'yyyyMM')
+	
+)
+select * from 
+(
+select * , row_number() over(partition by [Product Category] order by sales desc) as rn
+from cteSalesOrders
+) a
+where rn=1
+```
