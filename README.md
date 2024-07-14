@@ -28,10 +28,10 @@ ADD [Item Retail Value] DECIMAL(10,2);
 UPDATE [wholesale_retail_orders].[dbo].[orders]
 SET [Item Retail Value] = CAST([Total Retail Price for This Order] AS DECIMAL(10,2)) / CAST([Quantity Ordered] AS DECIMAL(10,2));
 ```
-
+#### See top 5 records from each table ******/
 ```sql
-/****** see top 100 records ******/
-SELECT TOP (100) [Customer ID]
+
+SELECT TOP (5) [Customer ID]
       ,[Customer Status]
       ,[Date Order was placed]
       ,[Delivery Date]
@@ -42,6 +42,18 @@ SELECT TOP (100) [Customer ID]
       ,[Cost Price Per Unit]
       ,[Item Retail Value]
   FROM [wholesale_retail_orders ].[dbo].[orders]
+
+
+SELECT TOP (5) [Product ID]
+      ,[Product Line]
+      ,[Product Category]
+      ,[Product Group]
+      ,[Product Name]
+      ,[Supplier Country]
+      ,[Supplier Name]
+      ,[Supplier ID]
+  FROM [wholesale_retail_orders ].[dbo].[product-supplier]
+
 
 ```
 
