@@ -70,12 +70,12 @@ order by sales desc
 #### adding new column for "Supplier Country" with named "Supplier Country Long"
 ```sql
 --Step 1: Add the new column "Supplier Country Long"--
-ALTER TABLE your_table_name
-ADD COLUMN "Supplier Country Long" VARCHAR(50);
+ALTER TABLE [wholesale_retail_orders ].[dbo].[product-supplier] 
+ADD   [Supplier Country Long]  VARCHAR(50);
 
 -- Step 2: Update the new column with the full country names
-UPDATE your_table_name
-SET "Supplier Country Long" = CASE
+UPDATE [wholesale_retail_orders ].[dbo].[product-supplier]
+SET [Supplier Country Long] = CASE
     WHEN "Supplier Country" = 'US' THEN 'United States'
     WHEN "Supplier Country" = 'BE' THEN 'Belgium'
     WHEN "Supplier Country" = 'FR' THEN 'France'
@@ -93,4 +93,21 @@ SET "Supplier Country Long" = CASE
 END;
 ```
 
+#### Find top 5 highest selling products in each country
+```sql
+with cteTop10ProductSales as (
+select top 10 s.[Supplier Country Long], s.[Product Name],sum(cast ([Total Retail Price for This Order] as decimal(10,2))) as sales
+from [wholesale_retail_orders ].[dbo].[orders] o join  [wholesale_retail_orders ].[dbo].[product-supplier] s
+on o.[Product ID]=s.[Product ID]
+group by s.[Supplier Country Long],s.[Product Name]
+order by sales desc
 
+)
+select * from (
+select *
+, row_number() over(partition by [Supplier Country Long] order by sales desc) as rn
+from cteTop10ProductSales) A
+where rn<=5
+order by [Supplier Country Long]
+
+```
