@@ -111,3 +111,31 @@ where rn<=5
 order by [Supplier Country Long]
 
 ```
+
+
+#### Find month over month growth comparison from 2017 to 2021 sales eg : jan 2017 vs jan 2018
+```sql
+with cteSalesOrders as(
+SELECT 
+    YEAR(CONVERT(DATE, [Delivery Date], 120)) AS OrderYear,
+    MONTH(CONVERT(DATE, [Delivery Date], 120)) AS OrderMonth,
+   sum(cast ([Total Retail Price for This Order] as decimal(10,2))) as sales
+FROM 
+    [wholesale_retail_orders ].[dbo].[orders]
+GROUP BY 
+    YEAR(CONVERT(DATE, [Delivery Date], 120)),
+    MONTH(CONVERT(DATE, [Delivery Date], 120))
+	
+)
+select OrderMonth,
+SUM(case when OrderYear=2017 then sales else 0 end) as sales_2017,
+SUM(case when OrderYear=2018 then sales else 0 end) as sales_2018
+,SUM(case when OrderYear=2019 then sales else 0 end) as sales_2019
+,SUM(case when OrderYear=2020 then sales else 0 end) as sales_2020
+,SUM(case when OrderYear=2021 then sales else 0 end) as sales_2021
+
+from cteSalesOrders 
+group by OrderMonth 
+order by OrderMonth
+
+```
