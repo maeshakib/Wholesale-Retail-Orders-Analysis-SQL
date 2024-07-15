@@ -14,7 +14,6 @@ Dataset containing five years of customer orders, resulting in thousands of prod
 - MS SQL
 - CSV/MS Excel
 - Power BI
-- 
 ## Last result as  PowerBI Dashboard:
 
 #### Power BI homepage
