@@ -49,7 +49,7 @@ UPDATE [wholesale_retail_orders].[dbo].[orders]
 SET [Item Retail Value] = CAST([Total Retail Price for This Order] AS DECIMAL(10,2)) / CAST([Quantity Ordered] AS DECIMAL(10,2));
 ```
 
-### adding new column for "Supplier Country" with named "Supplier Country Long"
+### Adding new column for "Supplier Country" with named "Supplier Country Long"
 To improve readability, I am adding the country's long name alongside the short name, as it can be challenging to identify the country solely by its short name.
 ```sql
 --Step 1: Add the new column "Supplier Country Long"--
