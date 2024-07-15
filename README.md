@@ -34,15 +34,15 @@ Dataset containing five years of customer orders, resulting in thousands of prod
 - Review the mappings between source and destination columns.
 - Click "Next" and then "Finish" to run the import process.
 
-
-### adding new column for "Supplier Country" with named "Supplier Country Long"
+## Cleaning and Formating data with SQL:
+### Calculate "Item Retail Value" from  "Total Retail Price for This Order" and "Quantity Ordered"
 
 ```sql
 /******Creating a new column named "Item Retail Value"******/
 ALTER TABLE [wholesale_retail_orders].[dbo].[orders]
 ADD [Item Retail Value] DECIMAL(10,2);
 
-### Calculate "Item Retail Value" from  "Total Retail Price for This Order" and "Quantity Ordered"
+/******update "Item Retail Value" value******/
 
 UPDATE [wholesale_retail_orders].[dbo].[orders]
 SET [Item Retail Value] = CAST([Total Retail Price for This Order] AS DECIMAL(10,2)) / CAST([Quantity Ordered] AS DECIMAL(10,2));
@@ -76,7 +76,6 @@ END;
 ```
 
 
-
 ### See top 5 records from each table ******/
 ```sql
 
@@ -105,8 +104,9 @@ SELECT TOP (5) [Product ID]
 
 
 ```
+## Analysis with SQL:
 
-**Grouping by Product - Cost Price per Unit (Wholesale) Mean and Item Retail Value (Retail) Mean**
+### Grouping by Product - Cost Price per Unit (Wholesale) Mean and Item Retail Value (Retail) Mean 
 ```sql
 SELECT  [Product ID],
 
@@ -118,7 +118,7 @@ SELECT  [Product ID],
   order by [Product ID]
 ```
 
-**Find top 10 highest reveue generating products**
+### Find top 10 highest reveue generating products 
 
 ```sql
 select top 10 s.[Product Name],sum(cast ([Total Retail Price for This Order] as decimal(10,2))) as sales
