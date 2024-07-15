@@ -200,7 +200,7 @@ from cteSalesOrders
 ) a
 where rn=1
 ```
-#### Category had highest growth by profit in 2023 compare to 2022
+### Category had highest growth by profit in 2023 compare to 2022
 
 
 ```sql
