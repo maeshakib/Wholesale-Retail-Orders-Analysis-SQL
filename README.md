@@ -77,7 +77,7 @@ END;
 ```
 
 
-### See top 5 records from each table ******/
+### See top 5 records from each table 
 ```sql
 
 SELECT TOP (5) [Customer ID]
