@@ -9,6 +9,7 @@ Dataset containing five years of customer orders, resulting in thousands of prod
 - Write Sql Queries to Generate important insights and reports for product owners to make an data driven decisions. 
 - Create an fully functional Dashbord for Data Driven Decisiosn, which gives insights on various departments like Finance, sales, marketing, Supply chain.
 
+
 ## Tech stack used in the project:
 - MS SQL
 - CSV/MS Excel
