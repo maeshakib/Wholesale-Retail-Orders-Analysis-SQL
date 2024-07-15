@@ -14,17 +14,21 @@ Dataset containing five years of customer orders, resulting in thousands of prod
 - MS SQL
 - CSV/MS Excel
 - Power BI
-## PowerBI Dashboard:
+- 
+## Last result as  PowerBI Dashboard:
 
 #### Power BI homepage
-<img align="left" alt="Home page | PBI" width="800px" src="https://github.com/maeshakib/Wholesale-Retail-Orders-Analysis-SQL/blob/main/home.png" /> <br>
-<br>
+
+<img  alt="Home page | PBI" width="800px" src="https://github.com/maeshakib/Wholesale-Retail-Orders-Analysis-SQL/blob/main/home.png" /> <br>
+<br/>
 #### Month over Month Analysis
-<img align="left" alt="MoM page | PBI" width="800px" src="https://github.com/maeshakib/Wholesale-Retail-Orders-Analysis-SQL/blob/main/MoM.png" /> <br>
-<br>
+
+<img alt="MoM page | PBI" width="800px" src="https://github.com/maeshakib/Wholesale-Retail-Orders-Analysis-SQL/blob/main/MoM.png" /> <br>
+<br/>
 #### Power BI Map
-<img align="left" alt="Map  | PBI" width="800px" src="https://github.com/maeshakib/Wholesale-Retail-Orders-Analysis-SQL/blob/main/map.png" /> <br>
-<br>
+
+<img  alt="Map  | PBI" width="800px" src="https://github.com/maeshakib/Wholesale-Retail-Orders-Analysis-SQL/blob/main/map.png" /> <br>
+<br/>
 
 
 ## Work Flow:
