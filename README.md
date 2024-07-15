@@ -1,15 +1,30 @@
 # Wholesale-Retail-Orders-Analysis-SQL
-- orders: 185013 
-- product-supplier: 5504
 
-Open SQL Server Management Studio (SSMS) and connect to your SQL Server instance.
+## About Dataset
+Online sporting goods retailer selling thousands of different products
+Dataset containing five years of customer orders, resulting in thousands of products sold. The records comprise requests from 2017 to 2021. The data was adapted from the JMP Case Study Library.
+
+## Task:
+- As an data analyst who has been provided with sample data import dataset to SQL server, do data cleaning and a mock-up dashboard to work on the following task.
+- Write Sql Queries to Generate important insights and reports for product owners to make an data driven decisions. 
+- Create an fully functional Dashbord for Data Driven Decisiosn, which gives insights on various departments like Finance, sales, marketing, Supply chain.
+
+## Tech stack used in the project:
+- MS SQL
+- CSV/MS Excel
+- Power BI
+
+## Work Flow:
+### Load Dataset to SQL
+
+**Open SQL Server Management Studio (SSMS) and connect to your SQL Server instance:**
 - Right-click on the database where you want to import the CSV file.
 - Select Tasks > Import Data.
 - This will open the SQL Server Import and Export Wizard.
 **Choose the Data Source:**
 - Data Source: Flat File Source
 - Browse to select your CSV file.
-
+- "Text qualifier" by default its none write here double quote like (") __**Otherwise, if field values containing commas are not handled correctly, the data from the column might incorrectly populate other columns during import into SQL Server.**__
 **Choose the Destination:**
 - Destination: SQL Server Native Client
 - Specify the server name and database name.
@@ -19,16 +34,50 @@ Open SQL Server Management Studio (SSMS) and connect to your SQL Server instance
 - Review the mappings between source and destination columns.
 - Click "Next" and then "Finish" to run the import process.
 
+
+### adding new column for "Supplier Country" with named "Supplier Country Long"
+
 ```sql
 /******Creating a new column named "Item Retail Value"******/
 ALTER TABLE [wholesale_retail_orders].[dbo].[orders]
 ADD [Item Retail Value] DECIMAL(10,2);
 
-/******update data from query******/
+### Calculate "Item Retail Value" from  "Total Retail Price for This Order" and "Quantity Ordered"
+
 UPDATE [wholesale_retail_orders].[dbo].[orders]
 SET [Item Retail Value] = CAST([Total Retail Price for This Order] AS DECIMAL(10,2)) / CAST([Quantity Ordered] AS DECIMAL(10,2));
 ```
-#### See top 5 records from each table ******/
+
+### adding new column for "Supplier Country" with named "Supplier Country Long"
+To improve readability, I am adding the country's long name alongside the short name, as it can be challenging to identify the country solely by its short name.
+```sql
+--Step 1: Add the new column "Supplier Country Long"--
+ALTER TABLE [wholesale_retail_orders ].[dbo].[product-supplier] 
+ADD   [Supplier Country Long]  VARCHAR(50);
+
+-- Step 2: Update the new column with the full country names
+UPDATE [wholesale_retail_orders ].[dbo].[product-supplier]
+SET [Supplier Country Long] = CASE
+    WHEN "Supplier Country" = 'US' THEN 'United States'
+    WHEN "Supplier Country" = 'BE' THEN 'Belgium'
+    WHEN "Supplier Country" = 'FR' THEN 'France'
+    WHEN "Supplier Country" = 'NO' THEN 'Norway'
+    WHEN "Supplier Country" = 'AU' THEN 'Australia'
+    WHEN "Supplier Country" = 'SE' THEN 'Sweden'
+    WHEN "Supplier Country" = 'PT' THEN 'Portugal'
+    WHEN "Supplier Country" = 'ES' THEN 'Spain'
+    WHEN "Supplier Country" = 'NL' THEN 'Netherlands'
+    WHEN "Supplier Country" = 'DE' THEN 'Germany'
+    WHEN "Supplier Country" = 'DK' THEN 'Denmark'
+    WHEN "Supplier Country" = 'CA' THEN 'Canada'
+    WHEN "Supplier Country" = 'GB' THEN 'United Kingdom'
+    ELSE 'Unknown'
+END;
+```
+
+
+
+### See top 5 records from each table ******/
 ```sql
 
 SELECT TOP (5) [Customer ID]
@@ -57,7 +106,7 @@ SELECT TOP (5) [Product ID]
 
 ```
 
-Grouping by Product - Cost Price per Unit (Wholesale) Mean and Item Retail Value (Retail) Mean
+**Grouping by Product - Cost Price per Unit (Wholesale) Mean and Item Retail Value (Retail) Mean**
 ```sql
 SELECT  [Product ID],
 
@@ -79,33 +128,8 @@ group by s.[Product Name]
 order by sales desc
 ```
 
-#### adding new column for "Supplier Country" with named "Supplier Country Long"
-```sql
---Step 1: Add the new column "Supplier Country Long"--
-ALTER TABLE [wholesale_retail_orders ].[dbo].[product-supplier] 
-ADD   [Supplier Country Long]  VARCHAR(50);
 
--- Step 2: Update the new column with the full country names
-UPDATE [wholesale_retail_orders ].[dbo].[product-supplier]
-SET [Supplier Country Long] = CASE
-    WHEN "Supplier Country" = 'US' THEN 'United States'
-    WHEN "Supplier Country" = 'BE' THEN 'Belgium'
-    WHEN "Supplier Country" = 'FR' THEN 'France'
-    WHEN "Supplier Country" = 'NO' THEN 'Norway'
-    WHEN "Supplier Country" = 'AU' THEN 'Australia'
-    WHEN "Supplier Country" = 'SE' THEN 'Sweden'
-    WHEN "Supplier Country" = 'PT' THEN 'Portugal'
-    WHEN "Supplier Country" = 'ES' THEN 'Spain'
-    WHEN "Supplier Country" = 'NL' THEN 'Netherlands'
-    WHEN "Supplier Country" = 'DE' THEN 'Germany'
-    WHEN "Supplier Country" = 'DK' THEN 'Denmark'
-    WHEN "Supplier Country" = 'CA' THEN 'Canada'
-    WHEN "Supplier Country" = 'GB' THEN 'United Kingdom'
-    ELSE 'Unknown'
-END;
-```
-
-#### Find top 5 highest selling products in each country
+### Find top 5 highest selling products in each country
 ```sql
 with cteTop10ProductSales as (
 select top 10 s.[Supplier Country Long], s.[Product Name],sum(cast ([Total Retail Price for This Order] as decimal(10,2))) as sales
@@ -125,7 +149,7 @@ order by [Supplier Country Long]
 ```
 
 
-#### Find month over month growth comparison from 2017 to 2021 sales eg : jan 2017 vs jan 2018
+### Find month over month growth comparison from 2017 to 2021 sales eg : jan 2017 vs jan 2018
 ```sql
 with cteSalesOrders as(
 SELECT 
@@ -154,7 +178,7 @@ order by OrderMonth
 
 
 
-#### Foreach category which month had highest sales 
+### Foreach category which month had highest sales 
 ```sql
 with cteSalesOrders as(
 SELECT 
